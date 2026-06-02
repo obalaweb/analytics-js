@@ -22,12 +22,11 @@ function AnalyticsTracker({ endpoint }: { endpoint: string }) {
 
     // Use navigator.sendBeacon for non-blocking tracking, fallback to fetch
     if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
-      const blob = new Blob([payload], { type: 'application/json' });
-      navigator.sendBeacon(url, blob);
+      navigator.sendBeacon(url, payload);
     } else {
       fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: payload,
         keepalive: true,
       }).catch((err) => console.error('Analytics tracking failed:', err));
